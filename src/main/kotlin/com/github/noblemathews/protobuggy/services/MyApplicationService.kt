@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.noblemathews.protobuggy.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.noblemathews.protobuggy.MyBundle
 
 class MyApplicationService {
 
