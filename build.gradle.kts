@@ -29,8 +29,14 @@ repositories {
     jcenter()
 }
 dependencies {
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0")
+
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0");
+    implementation("com.github.julianthome:inmemantlr-api:1.7.0"){
+        exclude("org.slf4j")
+    };
+
 }
+
 
 // Configure gradle-intellij-plugin plugin.
 // Read more: https://github.com/JetBrains/gradle-intellij-plugin
@@ -71,9 +77,9 @@ tasks {
         sourceCompatibility = "1.8"
         targetCompatibility = "1.8"
     }
-    withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
-    }
+//    withType<KotlinCompile> {
+//        kotlinOptions.jvmTarget = "1.8"
+//    }
 
     withType<Detekt> {
         jvmTarget = "1.8"
