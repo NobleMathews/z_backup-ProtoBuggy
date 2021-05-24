@@ -29,7 +29,7 @@ repositories {
     jcenter()
 }
 dependencies {
-
+    implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("*.jar"))))
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.16.0");
     implementation("com.github.julianthome:inmemantlr-api:1.7.0"){
         exclude("org.slf4j")

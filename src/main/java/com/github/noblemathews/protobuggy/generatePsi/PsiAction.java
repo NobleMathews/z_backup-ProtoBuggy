@@ -1,5 +1,6 @@
 package com.github.noblemathews.protobuggy.generatePsi;
 
+import com.github.noblemathews.protobuggy.handleCpp.CDTGen;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
@@ -15,6 +16,7 @@ import com.intellij.psi.PsiJavaFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.DebugUtil;
 import com.intellij.psi.search.PsiShortNamesCache;
+import org.eclipse.core.runtime.CoreException;
 import org.jetbrains.annotations.NotNull;
 import com.github.noblemathews.protobuggy.handleCpp.AntlrTreeGen;
 
@@ -54,13 +56,15 @@ public class PsiAction extends AnAction {
             }
             else
                 if (Objects.equals(virtualFile.getExtension(), "cpp")){
+//                    need the header files - try out with clang
 //                    virtualFile.getFileType().getName().equals("C++") this will take in h files as well
                 String CppResponse;
 //                ((String) LoadTextUtil.loadText(virtualFile))
 //                    virtualFile.getPath()
                     try {
-                        CppResponse = AntlrTreeGen.generateAst(String.valueOf(LoadTextUtil.loadText(virtualFile)), project);
-                    } catch (IOException e) {
+//                        CppResponse = AntlrTreeGen.generateAst(String.valueOf(LoadTextUtil.loadText(virtualFile)), project);
+                        CDTGen.generateAst(String.valueOf(LoadTextUtil.loadText(virtualFile)), project);
+                    } catch (CoreException e) {
                         e.printStackTrace();
                         Messages.showMessageDialog(project, String.valueOf(e), "Cpp Error", null);
                     }
