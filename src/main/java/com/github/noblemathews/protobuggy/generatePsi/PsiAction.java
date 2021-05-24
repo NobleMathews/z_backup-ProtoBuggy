@@ -3,10 +3,16 @@ package com.github.noblemathews.protobuggy.generatePsi;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiJavaFile;
+import com.intellij.psi.PsiManager;
 import com.intellij.psi.impl.DebugUtil;
 import com.intellij.psi.search.PsiShortNamesCache;
 import org.jetbrains.annotations.NotNull;
@@ -38,15 +44,15 @@ public class PsiAction extends AnAction {
 //      Processes all files and directories under content roots skipping excluded and ignored files and directories.
         ProjectFileIndex.SERVICE.getInstance(project).iterateContent(virtualFile -> {
 
-//            if (virtualFile.getFileType().getName().equals("JAVA")) {
-//                PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
-//                assert psiFile != null;
-////                Check Iterated Files
-////                Messages.showMessageDialog(project, ((ASTNode) fileASTNode).getText(), "File ASTNode", null);
-//                classMain.add(virtualFile.getNameWithoutExtension());
-//                Messages.showMessageDialog(project, getPSIAsString(psiFile), "PSI Info", null);
-//            }
-//            else
+            if (virtualFile.getFileType().getName().equals("JAVA")) {
+                PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
+                assert psiFile != null;
+//                Check Iterated Files
+//                Messages.showMessageDialog(project, ((ASTNode) fileASTNode).getText(), "File ASTNode", null);
+                classMain.add(virtualFile.getNameWithoutExtension());
+                Messages.showMessageDialog(project, getPSIAsString(psiFile), "PSI Info", null);
+            }
+            else
                 if (Objects.equals(virtualFile.getExtension(), "cpp")){
 //                    virtualFile.getFileType().getName().equals("C++") this will take in h files as well
                 String CppResponse;
@@ -62,14 +68,15 @@ public class PsiAction extends AnAction {
 //                Messages.showMessageDialog(project, CppResponse, "Cpp Ast Info", null);
             }
 /*
+            Get Skipped file type info
             else{
                 Messages.showMessageDialog(project, virtualFile.getFileType().getName(), "Type Info", null);
             }
 */
             return true;
         });
-//        Messages.showMessageDialog(project, String.valueOf(classMain), "Classes Checked", null);
-//        getAllClassesInProject(project);
+        Messages.showMessageDialog(project, String.valueOf(classMain), "Classes Checked", null);
+        getAllClassesInProject(project);
     }
 
     @Override
@@ -77,8 +84,7 @@ public class PsiAction extends AnAction {
         iterateFilesProject(anActionEvent);
     }
 
-/*
-    private void getClassesInFile(Project project,VirtualFile virtualFile){
+    private void getClassesInFile(Project project, VirtualFile virtualFile){
         PsiJavaFile psiJavaFile = (PsiJavaFile) PsiManager.getInstance(project).findFile(virtualFile);
         assert psiJavaFile != null;
         PsiClass[] javaFileClasses = psiJavaFile.getClasses();
@@ -91,5 +97,4 @@ public class PsiAction extends AnAction {
         Module @NotNull [] arrayModules = ModuleManager.getInstance(project).getModules();
         Messages.showMessageDialog(project, Arrays.toString(arrayModules), "Modules Checked", null);
     }
-*/
 }
