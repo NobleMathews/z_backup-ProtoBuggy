@@ -17,5 +17,10 @@
                 text="Extract PSI...">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
+        <action id="com.github.noblemathews.protobuggy.treeNavJ.PsiNavAction"
+                class="com.github.noblemathews.protobuggy.treeNavJ.PsiNavAction" text="ProtoB Check Action"
+                description="Analyze response from test functions">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

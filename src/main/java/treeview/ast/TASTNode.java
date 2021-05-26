@@ -5,7 +5,6 @@
  import org.eclipse.cdt.core.dom.ast.ExpansionOverlapsBoundaryException;
  import org.eclipse.cdt.core.dom.ast.IASTFileLocation;
  import org.eclipse.cdt.core.dom.ast.IASTNode;
- import org.eclipse.cdt.core.dom.ast.IASTNode.CopyStyle;
  import org.eclipse.cdt.core.dom.ast.IASTNodeLocation;
  import org.eclipse.cdt.core.dom.ast.IASTTranslationUnit;
  import org.eclipse.cdt.core.parser.IToken;

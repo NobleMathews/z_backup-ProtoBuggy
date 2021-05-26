@@ -41,7 +41,7 @@ public class PsiAction extends AnAction {
 
     private void iterateFilesProject(AnActionEvent event) {
         Project project = event.getProject();
-        List<String> classMain = new ArrayList<String>();
+//        List<String> classMain = new ArrayList<String>();
         assert project != null;
 //      Processes all files and directories under content roots skipping excluded and ignored files and directories.
         ProjectFileIndex.SERVICE.getInstance(project).iterateContent(virtualFile -> {
@@ -51,8 +51,12 @@ public class PsiAction extends AnAction {
                 assert psiFile != null;
 //                Check Iterated Files
 //                Messages.showMessageDialog(project, ((ASTNode) fileASTNode).getText(), "File ASTNode", null);
-                classMain.add(virtualFile.getNameWithoutExtension());
-                Messages.showMessageDialog(project, getPSIAsString(psiFile), "PSI Info", null);
+
+//                Keep note of encountered classes
+//                classMain.add(virtualFile.getNameWithoutExtension());
+
+//                Show Java PSI ----
+//                Messages.showMessageDialog(project, getPSIAsString(psiFile), "PSI Info", null);
             }
             else
                 if (Objects.equals(virtualFile.getExtension(), "cpp")){
@@ -63,7 +67,8 @@ public class PsiAction extends AnAction {
 //                    virtualFile.getPath()
                     try {
 //                        CppResponse = AntlrTreeGen.generateAst(String.valueOf(LoadTextUtil.loadText(virtualFile)), project);
-                        CDTGen.generateAst(String.valueOf(LoadTextUtil.loadText(virtualFile)), project);
+//                        String.valueOf(LoadTextUtil.loadText(virtualFile))
+                        CDTGen.generateAst(virtualFile.getPath(), project);
                     } catch (CoreException e) {
                         e.printStackTrace();
                         Messages.showMessageDialog(project, String.valueOf(e), "Cpp Error", null);
@@ -79,8 +84,9 @@ public class PsiAction extends AnAction {
 */
             return true;
         });
-        Messages.showMessageDialog(project, String.valueOf(classMain), "Classes Checked", null);
-        getAllClassesInProject(project);
+//        Messages.showMessageDialog(project, String.valueOf(classMain), "Classes Checked", null);
+//        direct method but lists even that of dependencies
+//        getAllClassesInProject(project);
     }
 
     @Override
