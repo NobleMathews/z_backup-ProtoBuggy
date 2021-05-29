@@ -1,5 +1,6 @@
 package com.github.noblemathews.protobuggy.caretCheck;
 
+import com.intellij.codeInsight.TargetElementUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -7,12 +8,29 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.slicer.LanguageSlicing;
+import com.intellij.slicer.SliceHandler;
+import com.intellij.slicer.SliceLanguageSupportProvider;
+import com.intellij.slicer.SliceManager;
 
-import com.intellij.openapi.diagnostic.Logger;
+import java.io.File;
+import java.util.Objects;
 
 public class PsiCaretAction extends AnAction {
 
-    private static final Logger LOG = Logger.getInstance(PsiCaretAction.class);
+    public PsiElement getExpressionAtCaret(final Editor editor, final PsiFile file) {
+        int offset = TargetElementUtil.adjustOffset(file, editor.getDocument(), editor.getCaretModel().getOffset());
+        if (offset == 0) {
+            return null;
+        }
+        PsiElement atCaret = file.findElementAt(offset);
+
+        SliceLanguageSupportProvider provider = LanguageSlicing.getProvider(file);
+        if (provider == null || atCaret == null) {
+            return null;
+        }
+        return provider.getExpressionAtCaret(atCaret, true);
+    }
 
     @Override
     public void actionPerformed(AnActionEvent anActionEvent) {
@@ -22,6 +40,11 @@ public class PsiCaretAction extends AnAction {
             return;
         }
         int offset = editor.getCaretModel().getOffset();
+
+//        PsiElement element = new SliceHandler(true).getExpressionAtCaret(editor, psiFile);
+
+        SliceManager sliceManager = SliceManager.getInstance(Objects.requireNonNull(anActionEvent.getProject()));
+//        sliceManager.slice(getExpressionAtCaret(editor,psiFile),true, new SliceHandler());
 
         final StringBuilder infoBuilder = new StringBuilder();
         PsiElement element = psiFile.findElementAt(offset);

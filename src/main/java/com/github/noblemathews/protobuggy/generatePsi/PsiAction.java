@@ -59,7 +59,8 @@ public class PsiAction extends AnAction {
 //                Messages.showMessageDialog(project, getPSIAsString(psiFile), "PSI Info", null);
             }
             else
-                if (Objects.equals(virtualFile.getExtension(), "cpp")){
+//                if (Objects.equals(virtualFile.getExtension(), "cpp")){
+                if (virtualFile.getFileType().getName().equals("C++")){
 //                    need the header files - try out with clang
 //                    virtualFile.getFileType().getName().equals("C++") this will take in h files as well
                 String CppResponse;
