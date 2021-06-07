@@ -27,6 +27,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class PsiAction extends AnAction {
+    static {
+        System.load("../../../../../../native.so");
+    }
+    public native String func();
 
     private String getPSIAsString(PsiFile file) {
         return DebugUtil.psiToString(file, true, true);
