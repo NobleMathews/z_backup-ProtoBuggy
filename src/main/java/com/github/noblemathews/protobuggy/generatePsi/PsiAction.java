@@ -1,6 +1,12 @@
 package com.github.noblemathews.protobuggy.generatePsi;
 
 import com.github.noblemathews.protobuggy.handleCpp.CDTGen;
+import com.intellij.codeInspection.dataFlow.*;
+import com.intellij.codeInspection.dataFlow.value.DfaValue;
+import com.intellij.codeInspection.dataFlow.value.DfaValueFactory;
+import com.intellij.codeInspection.dataFlow.value.DfaVariableValue;
+import com.intellij.codeInspection.dataFlow.value.RelationType;
+import com.intellij.ide.highlighter.JavaFileType;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
@@ -10,21 +16,19 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiJavaFile;
-import com.intellij.psi.PsiManager;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.DebugUtil;
 import com.intellij.psi.search.PsiShortNamesCache;
 import org.eclipse.core.runtime.CoreException;
 import org.jetbrains.annotations.NotNull;
 import com.github.noblemathews.protobuggy.handleCpp.AntlrTreeGen;
+import org.jetbrains.uast.UCallExpression;
+import org.jetbrains.uast.UElement;
+import org.jetbrains.uast.UastContextKt;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class PsiAction extends AnAction {
 
@@ -49,6 +53,33 @@ public class PsiAction extends AnAction {
             if (virtualFile.getFileType().getName().equals("JAVA")) {
                 PsiFile psiFile = PsiManager.getInstance(project).findFile(virtualFile);
                 assert psiFile != null;
+                PsiJavaFile file = (PsiJavaFile) psiFile;
+//                PsiJavaFile file = (PsiJavaFile) PsiFileFactory.getInstance(getProject()).createFileFromText("X.java", JavaFileType.INSTANCE, content);
+                PsiMethod method = file.getClasses()[0].getMethods()[0];
+//                file.getClasses()[0].getMethods()[0].getParameters()[0].getType()
+//                UElement uastel = UastContextKt.toUElement(method.getReturnTypeElement(), UCallExpression.class);
+                PsiCodeBlock body = method.getBody();
+                DataFlowRunner runner = new DataFlowRunner(project, body) {};
+                PsiParameter[] parameters = method.getParameterList().getParameters();
+                final DfaValueFactory factory = runner.getFactory();
+
+                //                for (int i = 0; i < contract.getParameterCount(); i++) {
+//                    StandardMethodContract.ValueConstraint constraint = contract.getParameterConstraint(i);
+//                    DfaValue comparisonValue = constraint.getComparisonValue(factory);
+//                    if (comparisonValue != null) {
+//                        boolean negated = constraint.shouldUseNonEqComparison();
+//                        DfaVariableValue dfaParam = factory.getVarFactory().createVariableValue(parameters[i]);
+//                        initialState.applyCondition(dfaParam.cond(RelationType.equivalence(!negated), comparisonValue));
+//                    }
+//                }
+//
+//                ContractChecker.ContractCheckerVisitor visitor = new ContractChecker.ContractCheckerVisitor(method, contract, ownContract);
+//                runner.analyzeMethod(body, visitor, Collections.singletonList(initialState));
+
+                Messages.showMessageDialog(project, Arrays.toString(parameters), "Visitor Response", null);
+
+
+//                && ste.getMethodName().equals("processTryWithResources")
 //                Check Iterated Files
 //                Messages.showMessageDialog(project, ((ASTNode) fileASTNode).getText(), "File ASTNode", null);
 

@@ -40,7 +40,6 @@ public class CDTGen {
         return myRow;
     }
         public static String generateAst(String fileContents, Project project) throws CoreException {
-//            JFrame frame = new JFrame("ASTViewer");
 //
 //            JFileChooser fileChooser = new JFileChooser();
 //
@@ -110,15 +109,16 @@ public class CDTGen {
 //                }
             Messages.showMessageDialog(project, getTreeText(model, model.getRoot(), ""), "Cpp Got", null);
 
-//            frame.addWindowListener(new WindowAdapter() {
-//                public void windowClosing( WindowEvent we ) {
-//                    System.exit(0);
-//                }
-//            });
-//            JScrollPane scrollPane = new JScrollPane(treeTable);
-//            frame.getContentPane().add(scrollPane);
-//            frame.pack();
-//            frame.show();
+            JFrame frame = new JFrame("ASTViewer");
+            frame.addWindowListener(new WindowAdapter() {
+                public void windowClosing( WindowEvent we ) {
+                    System.exit(0);
+                }
+            });
+            JScrollPane scrollPane = new JScrollPane(treeTable);
+            frame.getContentPane().add(scrollPane);
+            frame.pack();
+            frame.show();
 
         return "";
     }
